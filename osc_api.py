@@ -265,12 +265,12 @@ def osc_fft(x):
 #     @return resp: (list) fft trans result in grafana timeseries format.
 #     """
 #     # grafana simple json response format
-#     target_name = 'Amplitude'
-#     resp = []
-#     resp_item = {
-#         'target': target_name,
-#         'datapoints': []    # data
-#     }
+    target_name = 'Amplitude'
+    resp = []
+    resp_item = {
+        'target': target_name,
+        'datapoints': []    # data
+    }
 
 #     print('query:')
 #     print(query)
@@ -325,12 +325,12 @@ def osc_ceps(query):
 #     @return resp: (list) fft trans result in grafana timeseries format.
 #     """
 #     # grafana simple json response format
-#     target_name = 'Amplitude'
-#     resp = []
-#     resp_item = {
-#         'target': target_name,
-#         'datapoints': []    # data
-#     }
+    target_name = 'Amplitude'
+    resp = []
+    resp_item = {
+        'target': target_name,
+        'datapoints': []    # data
+    }
 
 
 #     result = client.query(query)    # query influxdb
