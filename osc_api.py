@@ -187,7 +187,7 @@ def test_4():
     print('Query Date=' + DATE)
 
 
-    url = 'http://s3-api.fomos.csc.com.tw/query'
+    url = 'http://s3-api-fft.fomos.csc.com.tw/query'
 
     json_body = {
         "timezone": "browser",
