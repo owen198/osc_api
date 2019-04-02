@@ -258,35 +258,35 @@ def test_4():
     return jsonify(resp), 200
 
 def osc_fft(x):
-    """
-    wave transform: fft
+#     """
+#     wave transform: fft
 
-    @param  query: (string) query string for influxdb.
-    @return resp: (list) fft trans result in grafana timeseries format.
-    """
-    # grafana simple json response format
-    target_name = 'Amplitude'
-    resp = []
-    resp_item = {
-        'target': target_name,
-        'datapoints': []    # data
-    }
+#     @param  query: (string) query string for influxdb.
+#     @return resp: (list) fft trans result in grafana timeseries format.
+#     """
+#     # grafana simple json response format
+#     target_name = 'Amplitude'
+#     resp = []
+#     resp_item = {
+#         'target': target_name,
+#         'datapoints': []    # data
+#     }
 
-    print('query:')
-    print(query)
-    result = client.query(query)    # query influxdb
+#     print('query:')
+#     print(query)
+#     result = client.query(query)    # query influxdb
     
-    result = result.raw # trans query result to json
+#     result = result.raw # trans query result to json
        
 
-    x = []
-    if 'series' in result:
-        items = result['series'][0]['values']   # data array with data in influxdb
+#     x = []
+#     if 'series' in result:
+#         items = result['series'][0]['values']   # data array with data in influxdb
                      
-        for item in items:
-            x.append(item[1])
+#         for item in items:
+#             x.append(item[1])
     
-    client.close()
+#     client.close()
 
     
     if len(x) != 0:
