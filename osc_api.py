@@ -258,6 +258,7 @@ def test_4():
     return jsonify(resp), 200
 
 def osc_fft(x):
+    time.sleep(5)
 #     """
 #     wave transform: fft
 
