@@ -15,6 +15,8 @@ import configparser
 #import platform
 
 import numpy as np
+import pandas as pd
+
 from scipy import signal
 
 from influxdb import InfluxDBClient
@@ -234,18 +236,18 @@ def test_4():
     if req_param['_type'][0] == 'fft':
         print("Transfer to FFT!")
         resp = osc_fft(query)
-    elif req_param['_type'][0] == 'envelope':
-        resp = osc_envelope(query)
-    elif req_param['_type'][0] == 'ceps':
-        print("Transfer to CEPS!")        
-        resp = osc_ceps(query)
-    elif req_param['_type'][0] == 'wavelet':
-        print("Transfer to wavelet!")
-        #global wavelet_ID
-        wavelet_ID = int (req_param['wavelet_ID'][0])
-        resp = osc_wavelet(query,wavelet_ID)
-        print('wavelet_ID:')
-        print(wavelet_ID)        
+#     elif req_param['_type'][0] == 'envelope':
+#         resp = osc_envelope(query)
+#     elif req_param['_type'][0] == 'ceps':
+#         print("Transfer to CEPS!")        
+#         resp = osc_ceps(query)
+#     elif req_param['_type'][0] == 'wavelet':
+#         print("Transfer to wavelet!")
+#         #global wavelet_ID
+#         wavelet_ID = int (req_param['wavelet_ID'][0])
+#         resp = osc_wavelet(query,wavelet_ID)
+#         print('wavelet_ID:')
+#         print(wavelet_ID)        
     else:
         resp = []
 
