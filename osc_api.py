@@ -228,16 +228,16 @@ def test_4():
     }
     headers = {'Content-Type': 'application/json'}
     resp = requests.post(url, headers=headers, data=json.dumps(json_body))
-    resp_list = resp.json()[0]['datapoints'][:][0:]
+    resp_list = resp.json()[0]['datapoints']
     resp_list = [row[0] for row in resp_list]
-    resp_list
+    resp = osc_fft(resp_list)
 
     
     
     # route to different osc api
-    if req_param['_type'][0] == 'fft':
-        print("Transfer to FFT!")
-        resp = osc_fft(resp_list)
+#     if req_param['_type'][0] == 'fft':
+#         print("Transfer to FFT!")
+#         resp = osc_fft(resp_list)
 #     elif req_param['_type'][0] == 'envelope':
 #         resp = osc_envelope(query)
 #     elif req_param['_type'][0] == 'ceps':
@@ -250,8 +250,8 @@ def test_4():
 #         resp = osc_wavelet(query,wavelet_ID)
 #         print('wavelet_ID:')
 #         print(wavelet_ID)        
-    else:
-        resp = []
+#     else:
+#         resp = []
 
 
     print('/query')
