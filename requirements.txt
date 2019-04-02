@@ -1,0 +1,8 @@
+Flask
+requests
+scipy 
+influxdb 
+numpy
+gunicorn
+configparser 
+PyWavelets

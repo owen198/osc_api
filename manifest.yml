@@ -1,0 +1,10 @@
+---
+applications:
+- name: api-csc-fft-history
+  memory: 1024MB
+  buildpack: python_buildpack_offline
+  command: gunicorn -w 16 -b 0.0.0.0:8080 osc_api:app
+  env:
+    SERVICE_NAME: influxdb
+  services:
+  - CSC-realtime
