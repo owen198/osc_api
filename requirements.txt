@@ -6,3 +6,4 @@ numpy
 gunicorn
 configparser 
 PyWavelets
+pandas==0.22.0
