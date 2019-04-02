@@ -15,7 +15,7 @@ import configparser
 #import platform
 
 import numpy as np
-import pandas as pd
+#import pandas as pd
 
 from scipy import signal
 
@@ -228,14 +228,16 @@ def test_4():
     }
     headers = {'Content-Type': 'application/json'}
     resp = requests.post(url, headers=headers, data=json.dumps(json_body))
-    resp_df = pd.DataFrame(resp.json()[0]['datapoints'])
+    resp_list = resp.json()[0]['datapoints'][:][0:]
+    resp_list = [row[0] for row in resp_list]
+    resp_list
 
     
     
     # route to different osc api
     if req_param['_type'][0] == 'fft':
         print("Transfer to FFT!")
-        resp = osc_fft(query)
+        resp = osc_fft(resp_list)
 #     elif req_param['_type'][0] == 'envelope':
 #         resp = osc_envelope(query)
 #     elif req_param['_type'][0] == 'ceps':
@@ -255,7 +257,7 @@ def test_4():
     print('/query')
     return jsonify(resp), 200
 
-def osc_fft(query):
+def osc_fft(x):
     """
     wave transform: fft
 
@@ -316,33 +318,33 @@ def osc_fft(query):
     return resp
     
 def osc_ceps(query):
-    """
-    wave transform: ceps
+#     """
+#     wave transform: ceps
 
-    @param  query: (string) query string for influxdb.
-    @return resp: (list) fft trans result in grafana timeseries format.
-    """
-    # grafana simple json response format
-    target_name = 'Amplitude'
-    resp = []
-    resp_item = {
-        'target': target_name,
-        'datapoints': []    # data
-    }
-
-
-    result = client.query(query)    # query influxdb
-    result = result.raw # trans query result to json
+#     @param  query: (string) query string for influxdb.
+#     @return resp: (list) fft trans result in grafana timeseries format.
+#     """
+#     # grafana simple json response format
+#     target_name = 'Amplitude'
+#     resp = []
+#     resp_item = {
+#         'target': target_name,
+#         'datapoints': []    # data
+#     }
 
 
-    x = []
-    if 'series' in result:
-        items = result['series'][0]['values']   # data array with data in influxdb
+#     result = client.query(query)    # query influxdb
+#     result = result.raw # trans query result to json
+
+
+#     x = []
+#     if 'series' in result:
+#         items = result['series'][0]['values']   # data array with data in influxdb
         
-        for item in items:
-            x.append(item[1])
+#         for item in items:
+#             x.append(item[1])
     
-    client.close()
+#     client.close()
 
 
     if len(x) != 0:
