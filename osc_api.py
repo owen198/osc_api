@@ -114,54 +114,122 @@ def test_3():
 
 @app.route("/query", methods=['GET','POST'])
 def test_4():
-    """
-    for simple json (return type: (json) time series)
+#     """
+#     for simple json (return type: (json) time series)
 
-    plotly simple json osc api write in this function.
-    """
-    print("_DEBUG_Enter test_4()!")
-    obj_req = request.get_json(silent=True)	# get post json
-    print (obj_req)
-    if obj_req == None:
-        return jsonify({
-            'EXEC_DESC': '62',
-            'message': 'request body is wrong'
-        }), 400
-
-
-    req_param = osc.get_param_list(obj_req['targets'][0]['target']) # (dict) parse request param
-
-    # check '_type' is exist
-    if ('_type' not in req_param) or ('measurement' not in req_param):
-        return jsonify({
-            'EXEC_DESC': '61',
-            'message': 'lose wave transformation method.'
-        }), 400
+#     plotly simple json osc api write in this function.
+#     """
+#     print("_DEBUG_Enter test_4()!")
+#     obj_req = request.get_json(silent=True)	# get post json
+#     print (obj_req)
+#     if obj_req == None:
+#         return jsonify({
+#             'EXEC_DESC': '62',
+#             'message': 'request body is wrong'
+#         }), 400
 
 
-    query_list = osc.get_param_constraint(req_param)    # (list) transform key, value to constraint string
-    query_constraint = osc.combine_constraint(query_list)   # (string) AND constraing list
+#     req_param = osc.get_param_list(obj_req['targets'][0]['target']) # (dict) parse request param
 
-    time_start = osc.trans_time_value(obj_req['range']['from']) # start time
-    time_end = osc.trans_time_value(obj_req['range']['to']) # end time
+#     # check '_type' is exist
+#     if ('_type' not in req_param) or ('measurement' not in req_param):
+#         return jsonify({
+#             'EXEC_DESC': '61',
+#             'message': 'lose wave transformation method.'
+#         }), 400
 
-    measurement = req_param['measurement'][0]
-    print('req_param:')
-    print(req_param)
-    tagValue = req_param['tagValue'][0]
-    if 'wavelet'==req_param['_type']:
+
+#     query_list = osc.get_param_constraint(req_param)    # (list) transform key, value to constraint string
+#     query_constraint = osc.combine_constraint(query_list)   # (string) AND constraing list
+
+#     time_start = osc.trans_time_value(obj_req['range']['from']) # start time
+#     time_end = osc.trans_time_value(obj_req['range']['to']) # end time
+
+#     measurement = req_param['measurement'][0]
+#     print('req_param:')
+#     print(req_param)
+#     tagValue = req_param['tagValue'][0]
+#     if 'wavelet'==req_param['_type']:
         
-        global wavelet_ID
-        wavelet_ID = req_param['wavelet_ID'][0]
-        print('wavelet_ID:')
-        print(wavelet_ID)
+#         global wavelet_ID
+#         wavelet_ID = req_param['wavelet_ID'][0]
+#         print('wavelet_ID:')
+#         print(wavelet_ID)
     
-    print ("measurement: " + measurement)
-    query = osc.get_query_string(measurement, tagValue, query_constraint, time_start, time_end)    # get query string
-    print("Query string: " + query)
-    #print(sys.platform)
-    #print(platform.platform())
+#     print ("measurement: " + measurement)
+#     query = osc.get_query_string(measurement, tagValue, query_constraint, time_start, time_end)    # get query string
+#     print("Query string: " + query)
+#     #print(sys.platform)
+#     #print(platform.platform())
 
+
+    # retrieve post JSON object
+    jsonobj = request.get_json(silent=True)
+    print(jsonobj)
+    target_obj = jsonobj['targets'][0]['target']
+    date_obj = jsonobj['range']['from']
+    #date_obj = date_obj.split('T')[0]
+    
+    DATE = datetime.datetime.strptime(date_obj, '%Y-%m-%dT%H:%M:%S.%fZ')
+    DATE = DATE + datetime.timedelta(hours=8)
+    DATE = DATE.strftime('%Y-%m-%d')
+
+    EQU_ID = target_obj.split('@')[0]
+    FEATURE = target_obj.split('@')[1]
+    TYPE = target_obj.split('@')[2]
+    
+    #print('Datatime='+datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
+    print('EQU_ID=' + EQU_ID)
+    print('Feature=' + FEATURE)
+    print('Type=' + TYPE)
+    print('Query Date=' + DATE)
+
+
+    url = 'http://s3-api.fomos.csc.com.tw/query'
+
+    json_body = {
+        "timezone": "browser",
+        "panelId": 2,
+        "dashboardId": 56,
+        "range": {
+            "from": date_obj,
+            "to": "2100-03-09T07:13:44.138Z",
+            "raw": {
+                "from": "now-6h",
+                "to": "now"
+            }
+        },
+        "rangeRaw": {
+            "from": "now-6h",
+            "to": "now"
+        },
+        "interval": "15s",
+        "intervalMs": 15000,
+        "targets": [
+            {
+                "target": target_obj,
+                "refId": "A",
+                "type": "timeserie"
+            }
+        ],
+        "maxDataPoints": 1260,
+        "scopedVars": {
+            "__interval": {
+                "text": "15s",
+                "value": "15s"
+            },
+            "__interval_ms": {
+                "text": 15000,
+                "value": 15000
+            }
+        }
+    }
+    headers = {'Content-Type': 'application/json'}
+    resp = requests.post(url, headers=headers, data=json.dumps(json_body))
+    resp_df = pd.DataFrame(resp.json()[0]['datapoints'])
+
+    
+    
     # route to different osc api
     if req_param['_type'][0] == 'fft':
         print("Transfer to FFT!")
