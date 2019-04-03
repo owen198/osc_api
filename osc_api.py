@@ -260,7 +260,7 @@ def test_4():
     raw_list = raw_list[query_from[0]:query_to[-1]]
     
     print('query_from:', query_from[0])
-    print('query_to:', query_from[-1])
+    print('query_to:', query_to[-1])
     resp = osc_fft(raw_list)
 
     
