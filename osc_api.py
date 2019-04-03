@@ -175,9 +175,12 @@ def test_4():
     date_to = jsonobj['range']['to']
     #date_obj = date_obj.split('T')[0]
     
-    DATE = datetime.datetime.strptime(date_obj, '%Y-%m-%dT%H:%M:%S.%fZ')
-    DATE = DATE + datetime.timedelta(hours=8)
-    DATE = DATE.strftime('%Y-%m-%d')
+    date_from = datetime.datetime.strptime(date_from, '%Y-%m-%dT%H:%M:%S.%fZ') + datetime.timedelta(hours=8)
+    date_to = datetime.datetime.strptime(date_to, '%Y-%m-%dT%H:%M:%S.%fZ') + datetime.timedelta(hours=8)
+    
+    #DATE = datetime.datetime.strptime(date_obj, '%Y-%m-%dT%H:%M:%S.%fZ')
+    #DATE = DATE + datetime.timedelta(hours=8)
+    #DATE = DATE.strftime('%Y-%m-%d')
 
     EQU_ID = target_obj.split('@')[0]
     FEATURE = target_obj.split('@')[1]
@@ -187,7 +190,7 @@ def test_4():
     print('EQU_ID=' + EQU_ID)
     print('Feature=' + FEATURE)
     print('Type=' + TYPE)
-    print('Query Date=' + DATE)
+    #print('Query Date=' + DATE)
 
 
     url = 'http://s3-api-fft.fomos.csc.com.tw/query'
@@ -236,24 +239,30 @@ def test_4():
     raw_list = [row[0] for row in s3_api_list]
     time_list = [row[1] for row in s3_api_list]
     
+    print('range of grafana', date_from, date_to)
+    print('range of s3 query', date_obj)
+    print('range of bin file:', time_list[0], time_list[-1])
+    
 
     # from
-    epoch_second = datetime.datetime.strptime(date_from, '%Y-%m-%dT%H:%M:%S.%fZ').strftime('%s')
+    epoch_second = datetime.datetime.strptime(date_from, '%Y-%m-%dT%H:%M:%S.%fZ')
+    epoch_second = epoch_second.strftime('%s')
     milisecond = '{:03.0f}'.format(datetime.datetime.strptime(date_from, '%Y-%m-%dT%H:%M:%S.%fZ').microsecond / 1000.0)
     query_string = epoch_second+milisecond
     
     query_from = []
-    query_from = [time_list.index(i) for i in time_list if query_string[0:14] in str(i)]
+    query_from = [time_list.index(i) for i in time_list if query_string in str(i)]
     if not query_from:
         query_from.append(0)
         
     # to
-    epoch_second = datetime.datetime.strptime(date_to, '%Y-%m-%dT%H:%M:%S.%fZ').strftime('%s')
+    epoch_second = datetime.datetime.strptime(date_to, '%Y-%m-%dT%H:%M:%S.%fZ')
+    epoch_second = epoch_second.strftime('%s')
     milisecond = '{:03.0f}'.format(datetime.datetime.strptime(date_from, '%Y-%m-%dT%H:%M:%S.%fZ').microsecond / 1000.0)
     query_string = epoch_second+milisecond
     
     query_to = []
-    query_to = [time_list.index(i) for i in time_list if query_string[0:14] in str(i)]
+    query_to = [time_list.index(i) for i in time_list if query_string in str(i)]
     if not query_to:
         query_to.append(-1)
 
