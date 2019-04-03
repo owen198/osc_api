@@ -234,23 +234,33 @@ def test_4():
     s3_api_list = s3_api_resp.json()[0]['datapoints']
     
     raw_list = [row[0] for row in s3_api_resp]
-    resp = osc_fft(raw_list)
+    time_list = [row[0] for row in s3_api_resp]
+    
 
+    # from
     epoch_second = datetime.datetime.strptime(date_from, '%Y-%m-%dT%H:%M:%S.%fZ').strftime('%s')
     milisecond = '{:03.0f}'.format(datetime.datetime.strptime(date_from, '%Y-%m-%dT%H:%M:%S.%fZ').microsecond / 1000.0)
     query_string = epoch_second+milisecond
-    print(query_string)
-
-    time_list = [row[1] for row in s3_api_list]
     
-    l = [time_list.index(i) for i in time_list if query_string[0:14] in str(i)]
-    if not l:
-        l = [time_list.index(i) for i in time_list if query_string[0:13] in str(i)]
-
-    if not l:
-        l = [time_list.index(i) for i in time_list if query_string[0:12] in str(i)]
+    query_from = []
+    query_from = [time_list.index(i) for i in time_list if query_string[0:14] in str(i)]
+    if not query_from:
+        query_from.append(0)
+        
+    # to
+    epoch_second = datetime.datetime.strptime(date_to, '%Y-%m-%dT%H:%M:%S.%fZ').strftime('%s')
+    milisecond = '{:03.0f}'.format(datetime.datetime.strptime(date_from, '%Y-%m-%dT%H:%M:%S.%fZ').microsecond / 1000.0)
+    query_string = epoch_second+milisecond
     
-    print(l)
+    query_to = []
+    query_to = [time_list.index(i) for i in time_list if query_string[0:14] in str(i)]
+    if not query_to:
+        query_to.append(-1)
+
+    raw_list = raw_list[query_from[0]:query_to[-1]]
+    
+    resp = osc_fft(raw_list)
+
     
     # route to different osc api
 #     if req_param['_type'][0] == 'fft':
