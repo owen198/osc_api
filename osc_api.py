@@ -263,7 +263,7 @@ def test_4():
 #         resp = []
 
 
-    print(resp)
+    #print(resp)
     print('/query')
     return jsonify(resp), 200
 
