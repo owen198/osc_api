@@ -230,18 +230,19 @@ def test_4():
         }
     }
     headers = {'Content-Type': 'application/json'}
-    resp = requests.post(url, headers=headers, data=json.dumps(json_body))
-    resp_list = resp.json()[0]['datapoints']
-    resp_list = [row[0] for row in resp_list]
-    resp = osc_fft(resp_list)
+    s3_api_resp = requests.post(url, headers=headers, data=json.dumps(json_body))
+    raw_list = s3_api_resp.json()[0]['datapoints']
+    raw_list = [row[0] for row in raw_list]
+    resp = osc_fft(raw_list)
 
     epoch_second = datetime.datetime.strptime(date_from, '%Y-%m-%dT%H:%M:%S.%fZ').strftime('%s')
     milisecond = '{:03.0f}'.format(datetime.datetime.strptime(date_from, '%Y-%m-%dT%H:%M:%S.%fZ').microsecond / 1000.0)
     query_string = epoch_second+milisecond
     print(query_string)
     
-    resp_list = resp.json()[0]['datapoints']
-    time_list = [row[1] for row in resp_list]
+    time_list = resp.json()[0]['datapoints']
+    time_list = [row[1] for row in time_list]
+    
     l = [time_list.index(i) for i in time_list if query_string[0:14] in str(i)]
     if not l:
         l = [time_list.index(i) for i in time_list if query_string[0:13] in str(i)]
