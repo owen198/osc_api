@@ -241,9 +241,9 @@ def test_4():
     
     print('range of grafana', date_from, date_to)
     print('range of s3 query', date_obj)
-    print('range of bin file:', time_list[0], time_list[-1])
+    print('range of bin file:', datetime.datetime.fromtimestamp(time_list[0]).strftime('%c'), 
+          datetime.datetime.fromtimestamp(time_list[-1]).strftime('%c'))
     
-
     # from
     epoch_second = datetime.datetime.strptime(date_from, '%Y-%m-%dT%H:%M:%S.%fZ')
     epoch_second = epoch_second.strftime('%s')
