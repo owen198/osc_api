@@ -233,7 +233,7 @@ def test_4():
     s3_api_resp = requests.post(url, headers=headers, data=json.dumps(json_body))
     s3_api_list = s3_api_resp.json()[0]['datapoints']
     
-    raw_list = [row[0] for row in raws3_api_list_list]
+    raw_list = [row[0] for row in s3_api_resp]
     resp = osc_fft(raw_list)
 
     epoch_second = datetime.datetime.strptime(date_from, '%Y-%m-%dT%H:%M:%S.%fZ').strftime('%s')
