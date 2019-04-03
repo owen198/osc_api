@@ -240,6 +240,7 @@ def test_4():
     query_string = epoch_second+milisecond
     print(query_string)
     
+    resp_list = resp.json()[0]['datapoints']
     time_list = [row[1] for row in resp_list]
     l = [time_list.index(i) for i in time_list if query_string[0:14] in str(i)]
     if not l:
