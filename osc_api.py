@@ -241,8 +241,14 @@ def test_4():
     print(query_string)
     
     time_list = [row[1] for row in resp_list]
-    l = [time_list.index(i) for i in time_list if query_string in str(i)]
-    print('query from'+time_list[l[0]])
+    l = [time_list.index(i) for i in time_list if query_string[0:14] in str(i)]
+    if not l:
+        l = [time_list.index(i) for i in time_list if query_string[0:13] in str(i)]
+
+    if not l:
+        l = [time_list.index(i) for i in time_list if query_string[0:12] in str(i)]
+    
+    print(l)
     
     # route to different osc api
 #     if req_param['_type'][0] == 'fft':
