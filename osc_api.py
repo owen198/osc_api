@@ -170,6 +170,9 @@ def test_4():
     print(jsonobj)
     target_obj = jsonobj['targets'][0]['target']
     date_obj = jsonobj['range']['from']
+    
+    date_from = jsonobj['range']['from']
+    date_to = jsonobj['range']['to']
     #date_obj = date_obj.split('T')[0]
     
     DATE = datetime.datetime.strptime(date_obj, '%Y-%m-%dT%H:%M:%S.%fZ')
@@ -232,7 +235,13 @@ def test_4():
     resp_list = [row[0] for row in resp_list]
     resp = osc_fft(resp_list)
 
+    epoch_second = datetime.datetime.strptime(date_from, '%Y-%m-%dT%H:%M:%S.%fZ').strftime('%s')
+    milisecond = '{:03.0f}'.format(datetime.datetime.strptime(date_from, '%Y-%m-%dT%H:%M:%S.%fZ').microsecond / 1000.0)
+    query_string = epoch_second+milisecond
     
+    time_list = [row[1] for row in resp_list]
+    l = [time_list.index(i) for i in time_list if query_string in str(i)]
+    print('query from'+time_list[l[0]])
     
     # route to different osc api
 #     if req_param['_type'][0] == 'fft':
