@@ -238,6 +238,7 @@ def test_4():
     epoch_second = datetime.datetime.strptime(date_from, '%Y-%m-%dT%H:%M:%S.%fZ').strftime('%s')
     milisecond = '{:03.0f}'.format(datetime.datetime.strptime(date_from, '%Y-%m-%dT%H:%M:%S.%fZ').microsecond / 1000.0)
     query_string = epoch_second+milisecond
+    print(query_string)
     
     time_list = [row[1] for row in resp_list]
     l = [time_list.index(i) for i in time_list if query_string in str(i)]
