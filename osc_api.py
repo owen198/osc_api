@@ -129,8 +129,11 @@ def test_4():
     date_to = jsonobj['range']['to']
     #date_obj = date_obj.split('T')[0]
     
-    date_from = datetime.datetime.strptime(date_from, '%Y-%m-%dT%H:%M:%S.%fZ') + datetime.timedelta(hours=8)
-    date_to = datetime.datetime.strptime(date_to, '%Y-%m-%dT%H:%M:%S.%fZ') + datetime.timedelta(hours=8)
+    #date_from = datetime.datetime.strptime(date_from, '%Y-%m-%dT%H:%M:%S.%fZ') + datetime.timedelta(hours=8)
+    #date_to = datetime.datetime.strptime(date_to, '%Y-%m-%dT%H:%M:%S.%fZ') + datetime.timedelta(hours=8)
+    
+    date_from = datetime.datetime.strptime(date_from, '%Y-%m-%dT%H:%M:%S.%fZ')
+    date_to = datetime.datetime.strptime(date_to, '%Y-%m-%dT%H:%M:%S.%fZ')
     
     #DATE = datetime.datetime.strptime(date_obj, '%Y-%m-%dT%H:%M:%S.%fZ')
     #DATE = DATE + datetime.timedelta(hours=8)
