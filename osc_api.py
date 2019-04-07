@@ -202,21 +202,23 @@ def test_4():
     print('bin file to:', datetime.datetime.fromtimestamp(int(time_list[-1]//1000)).strftime('%c'))
     print('bin file 1st element:', time_list[0])
     print('bin file 2nd element:', time_list[1])
-    print('bin file 3rd element:', time_list[-1])
+    print('bin file last element:', time_list[-1])
     
     # from
-    query_string = combine_s3_query_string(date_from)
+    query_bin_from = combine_s3_query_string(date_from)
+    print('query_bin_from=', query_bin_from)
     
     query_from = []
-    query_from = [time_list.index(i) for i in time_list if query_string in str(i)]
+    query_from = [time_list.index(i) for i in time_list if query_bin_from in str(i)]
     if not query_from:
         query_from.append(0)
         
     # to
-    query_string = combine_s3_query_string(date_to)
+    query_bin_to = combine_s3_query_string(date_to)
+    print('query_bin_to=', query_bin_to)
     
     query_to = []
-    query_to = [time_list.index(i) for i in time_list if query_string in str(i)]
+    query_to = [time_list.index(i) for i in time_list if query_bin_to in str(i)]
     if not query_to:
         query_to.append(-1)
 
@@ -254,8 +256,6 @@ def combine_s3_query_string(input_dt):
     epoch_second = input_dt.strftime('%s')
     milisecond = input_dt.microsecond / 1000
     query_string = str(int(epoch_second) * 1000 + milisecond)
-    print('query_string=', query_string)
-    
     return query_string
 
 def osc_fft(x):
