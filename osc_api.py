@@ -144,8 +144,8 @@ def test_4():
     #print('EQU_ID=' + EQU_ID)
     #print('target_obj=' + target_obj)
     print('date_obj=' + date_obj)
-    print('date_from=' + date_from)
-    print('date_to=' + date_to)
+    print('date_from=', date_from)
+    print('date_to=', date_to)
     #print('Query Date=' + DATE)
 
 
