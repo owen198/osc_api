@@ -213,7 +213,7 @@ def test_4():
     print('query_bin_from=', query_bin_from, type(query_bin_from))
     
     time_str_list = ['{:.3f}'.format(x) for x in time_list]
-    query_from = difflib.get_close_matches(str(query_bin_from), time_list)
+    query_from = difflib.get_close_matches(query_bin_from, time_str_list)
     if not query_from:
         query_from.append(0)
 
@@ -222,7 +222,7 @@ def test_4():
     query_bin_to = combine_s3_query_string(date_to)
     print('query_bin_to=', query_bin_to)
     
-    query_to = difflib.get_close_matches(query_bin_to, time_list)
+    query_to = difflib.get_close_matches(query_bin_to, time_str_list)
     if not query_to:
         query_to.append(-1)
 
