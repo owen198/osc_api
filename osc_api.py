@@ -198,8 +198,8 @@ def test_4():
     raw_list = [row[0] for row in s3_api_list]
     time_list = [row[1] for row in s3_api_list]
     
-    print('bin file from:', datetime.datetime.fromtimestamp(time_list[0]).strftime('%c'))
-    print('bin file to:', datetime.datetime.fromtimestamp(time_list[-1]).strftime('%c'))
+    print('bin file from:', datetime.datetime.fromtimestamp(int(time_list[0]%1000)).strftime('%c'))
+    print('bin file to:', datetime.datetime.fromtimestamp(int(time_list[-1]%1000)).strftime('%c'))
     print('bin file 1st element:', time_list[0])
     print('bin file 2nd element:', time_list[1])
     print('bin file 3rd element:', time_list[2])
@@ -209,6 +209,7 @@ def test_4():
     epoch_second = epoch_second.strftime('%s')
     milisecond = '{:03.0f}'.format(datetime.datetime.strptime(date_from, '%Y-%m-%dT%H:%M:%S.%fZ').microsecond / 1000.0)
     query_string = epoch_second+milisecond
+    print(query_string)
     
     query_from = []
     query_from = [time_list.index(i) for i in time_list if query_string in str(i)]
