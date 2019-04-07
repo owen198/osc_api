@@ -250,9 +250,9 @@ def test_4():
     print('/query')
     return jsonify(resp), 200
 
-def combine_s3_query_string(date_from):
-    epoch_second = date_from.strftime('%s')
-    milisecond = date_from.microsecond / 1000
+def combine_s3_query_string(input_dt):
+    epoch_second = input_dt.strftime('%s')
+    milisecond = input_dt.microsecond / 1000
     query_string = str(int(epoch_second) * 1000 + milisecond)
     print('query_string=', query_string)
     
