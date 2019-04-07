@@ -205,17 +205,10 @@ def test_4():
     print('bin file 3rd element:', time_list[2])
     
     # from
-    #try:
-        #epoch_second = datetime.datetime.strptime(date_from, '%Y-%m-%dT%H:%M:%S.%fZ').strftime('%s')
     epoch_second = date_from.strftime('%s')
     milisecond = date_from.microsecond / 1000
-        #milisecond = '{:03.0f}'.format(datetime.datetime.strptime(date_from, '%Y-%m-%dT%H:%M:%S.%fZ').microsecond / 1000.0)
-    #except:
-        #epoch_second = datetime.datetime.strptime(date_from, '%Y-%m-%dT%H:%M:%S').strftime('%s')
-        #milisecond = '{:03.0f}'.format(datetime.datetime.strptime(date_from, '%Y-%m-%dT%H:%M:%S').microsecond / 1000.0)
-
     query_string = int(epoch_second) * 1000 + milisecond
-    print(query_string)
+    print('query_string=', query_string)
     
     query_from = []
     query_from = [time_list.index(i) for i in time_list if query_string in str(i)]
@@ -223,15 +216,10 @@ def test_4():
         query_from.append(0)
         
     # to
-    try:
-        epoch_second = datetime.datetime.strptime(date_from, '%Y-%m-%dT%H:%M:%S.%fZ').strftime('%s')
-        milisecond = '{:03.0f}'.format(datetime.datetime.strptime(date_from, '%Y-%m-%dT%H:%M:%S.%fZ').microsecond / 1000.0)
-    except:
-        epoch_second = datetime.datetime.strptime(date_from, '%Y-%m-%dT%H:%M:%S').strftime('%s')
-        milisecond = '{:03.0f}'.format(datetime.datetime.strptime(date_from, '%Y-%m-%dT%H:%M:%S').microsecond / 1000.0)
-        
-    query_string = epoch_second+milisecond
-    print(query_string)
+    epoch_second = date_from.strftime('%s')
+    milisecond = date_from.microsecond / 1000
+    query_string = int(epoch_second) * 1000 + milisecond
+    print('query_string=', query_string)
     
     query_to = []
     query_to = [time_list.index(i) for i in time_list if query_string in str(i)]
@@ -239,9 +227,6 @@ def test_4():
         query_to.append(-1)
 
     raw_list = raw_list[query_from[0]:query_to[-1]]
-    
-    print(query_string, time_list[0])
-#     print(time_list)
     
     print('query_from:', query_from[0])
     print('query_to:', query_to[-1])
