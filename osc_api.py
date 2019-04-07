@@ -116,58 +116,12 @@ def test_3():
 
 @app.route("/query", methods=['GET','POST'])
 def test_4():
-#     """
-#     for simple json (return type: (json) time series)
-
-#     plotly simple json osc api write in this function.
-#     """
-#     print("_DEBUG_Enter test_4()!")
-#     obj_req = request.get_json(silent=True)	# get post json
-#     print (obj_req)
-#     if obj_req == None:
-#         return jsonify({
-#             'EXEC_DESC': '62',
-#             'message': 'request body is wrong'
-#         }), 400
-
-
-#     req_param = osc.get_param_list(obj_req['targets'][0]['target']) # (dict) parse request param
-
-#     # check '_type' is exist
-#     if ('_type' not in req_param) or ('measurement' not in req_param):
-#         return jsonify({
-#             'EXEC_DESC': '61',
-#             'message': 'lose wave transformation method.'
-#         }), 400
-
-
-#     query_list = osc.get_param_constraint(req_param)    # (list) transform key, value to constraint string
-#     query_constraint = osc.combine_constraint(query_list)   # (string) AND constraing list
-
-#     time_start = osc.trans_time_value(obj_req['range']['from']) # start time
-#     time_end = osc.trans_time_value(obj_req['range']['to']) # end time
-
-#     measurement = req_param['measurement'][0]
-#     print('req_param:')
-#     print(req_param)
-#     tagValue = req_param['tagValue'][0]
-#     if 'wavelet'==req_param['_type']:
-        
-#         global wavelet_ID
-#         wavelet_ID = req_param['wavelet_ID'][0]
-#         print('wavelet_ID:')
-#         print(wavelet_ID)
-    
-#     print ("measurement: " + measurement)
-#     query = osc.get_query_string(measurement, tagValue, query_constraint, time_start, time_end)    # get query string
-#     print("Query string: " + query)
-#     #print(sys.platform)
-#     #print(platform.platform())
 
 
     # retrieve post JSON object
     jsonobj = request.get_json(silent=True)
     print(jsonobj)
+    
     target_obj = jsonobj['targets'][0]['target']
     date_obj = jsonobj['range']['from']
     
@@ -182,17 +136,20 @@ def test_4():
     #DATE = DATE + datetime.timedelta(hours=8)
     #DATE = DATE.strftime('%Y-%m-%d')
 
-    EQU_ID = target_obj.split('@')[0]
-    FEATURE = target_obj.split('@')[1]
-    TYPE = target_obj.split('@')[2]
+    #EQU_ID = target_obj.split('@')[0]
+    #FEATURE = target_obj.split('@')[1]
+    #TYPE = target_obj.split('@')[2]
     
     #print('Datatime='+datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-    print('EQU_ID=' + EQU_ID)
-    print('Feature=' + FEATURE)
-    print('Type=' + TYPE)
+    #print('EQU_ID=' + EQU_ID)
+    #print('target_obj=' + target_obj)
+    print('date_obj=' + date_obj)
+    print('date_from=' + date_from)
+    print('date_to=' + date_to)
     #print('Query Date=' + DATE)
 
 
+    # get bin file from s3 API
     url = 'http://s3-api-fft.fomos.csc.com.tw/query'
 
     json_body = {
@@ -232,17 +189,17 @@ def test_4():
             }
         }
     }
+    
     headers = {'Content-Type': 'application/json'}
     s3_api_resp = requests.post(url, headers=headers, data=json.dumps(json_body))
     s3_api_list = s3_api_resp.json()[0]['datapoints']
     
+    # query bin file by time range
     raw_list = [row[0] for row in s3_api_list]
     time_list = [row[1] for row in s3_api_list]
     
-    print('range of grafana', date_from, date_to)
-    print('range of s3 query', date_obj)
-    print('range of bin file:', datetime.datetime.fromtimestamp(time_list[0]).strftime('%c'), 
-          datetime.datetime.fromtimestamp(time_list[-1]).strftime('%c'))
+    print('bin file from:', datetime.datetime.fromtimestamp(time_list[0]).strftime('%c'))
+    print('bin file to:', datetime.datetime.fromtimestamp(time_list[-1]).strftime('%c'))
     
     # from
     epoch_second = datetime.datetime.strptime(date_from, '%Y-%m-%dT%H:%M:%S.%fZ')
@@ -296,7 +253,6 @@ def test_4():
 #         resp = []
 
 
-    #print(resp)
     print('/query')
     return jsonify(resp), 200
 
