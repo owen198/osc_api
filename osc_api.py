@@ -212,20 +212,21 @@ def test_4():
     query_bin_from = combine_s3_query_string(date_from)
     print('query_bin_from=', query_bin_from)
     
-    query_from = []
-    query_from = [time_list.index(i) for i in time_list if query_bin_from in str(i)]
+    time_str_list = ['{:.3f}'.format(x) for x in time_list]
+    query_from = difflib.get_close_matches(query_bin_from, time_list)
     if not query_from:
         query_from.append(0)
+
         
     # to
     query_bin_to = combine_s3_query_string(date_to)
     print('query_bin_to=', query_bin_to)
     
-    query_to = []
-    query_to = [time_list.index(i) for i in time_list if query_bin_to in str(i)]
+    query_to = difflib.get_close_matches(query_bin_to, time_list)
     if not query_to:
         query_to.append(-1)
 
+    print('query_from and query_to:', query_from[0], query_to[-1])
     raw_list = raw_list[query_from[0]:query_to[-1]]
     
     print('query_from:', query_from[0])
