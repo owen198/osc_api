@@ -206,14 +206,14 @@ def test_4():
     print('bin file to:', datetime.datetime.fromtimestamp(int(time_list[-1]//1000)).strftime('%c'))
     print('bin file 1st element:', time_list[0])
     print('bin file 2nd element:', time_list[1])
-    print('bin file last element:', time_list[-1])
+    print('bin file last element:', time_list[-1], type(time_list[-1]))
     
     # from
     query_bin_from = combine_s3_query_string(date_from)
-    print('query_bin_from=', query_bin_from)
+    print('query_bin_from=', query_bin_from, type(query_bin_from))
     
     time_str_list = ['{:.3f}'.format(x) for x in time_list]
-    query_from = difflib.get_close_matches(query_bin_from, time_list)
+    query_from = difflib.get_close_matches(str(query_bin_from), time_list)
     if not query_from:
         query_from.append(0)
 
