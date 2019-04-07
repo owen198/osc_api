@@ -207,7 +207,7 @@ def test_4():
     # from
     epoch_second = date_from.strftime('%s')
     milisecond = date_from.microsecond / 1000
-    query_string = int(epoch_second) * 1000 + milisecond
+    query_string = str(int(epoch_second) * 1000 + milisecond)
     print('query_string=', query_string)
     
     query_from = []
@@ -218,7 +218,7 @@ def test_4():
     # to
     epoch_second = date_from.strftime('%s')
     milisecond = date_from.microsecond / 1000
-    query_string = int(epoch_second) * 1000 + milisecond
+    query_string = str(int(epoch_second) * 1000 + milisecond)
     print('query_string=', query_string)
     
     query_to = []
