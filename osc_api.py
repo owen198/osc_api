@@ -205,14 +205,16 @@ def test_4():
     print('bin file 3rd element:', time_list[2])
     
     # from
-    try:
-        epoch_second = datetime.datetime.strptime(date_from, '%Y-%m-%dT%H:%M:%S.%fZ').strftime('%s')
-        milisecond = '{:03.0f}'.format(datetime.datetime.strptime(date_from, '%Y-%m-%dT%H:%M:%S.%fZ').microsecond / 1000.0)
-    except:
-        epoch_second = datetime.datetime.strptime(date_from, '%Y-%m-%dT%H:%M:%S').strftime('%s')
-        milisecond = '{:03.0f}'.format(datetime.datetime.strptime(date_from, '%Y-%m-%dT%H:%M:%S').microsecond / 1000.0)
+    #try:
+        #epoch_second = datetime.datetime.strptime(date_from, '%Y-%m-%dT%H:%M:%S.%fZ').strftime('%s')
+    epoch_second = date_from.strftime('%s')
+    milisecond = date_from.microsecond / 1000
+        #milisecond = '{:03.0f}'.format(datetime.datetime.strptime(date_from, '%Y-%m-%dT%H:%M:%S.%fZ').microsecond / 1000.0)
+    #except:
+        #epoch_second = datetime.datetime.strptime(date_from, '%Y-%m-%dT%H:%M:%S').strftime('%s')
+        #milisecond = '{:03.0f}'.format(datetime.datetime.strptime(date_from, '%Y-%m-%dT%H:%M:%S').microsecond / 1000.0)
 
-    query_string = epoch_second+milisecond
+    query_string = int(epoch_second) * 1000 + milisecond
     print(query_string)
     
     query_from = []
