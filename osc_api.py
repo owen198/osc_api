@@ -198,8 +198,8 @@ def test_4():
     raw_list = [row[0] for row in s3_api_list]
     time_list = [row[1] for row in s3_api_list]
     
-    print('bin file from:', datetime.datetime.fromtimestamp(int(time_list[0]%1000)).strftime('%c'))
-    print('bin file to:', datetime.datetime.fromtimestamp(int(time_list[-1]%1000)).strftime('%c'))
+    print('bin file from:', datetime.datetime.fromtimestamp(int(time_list[0]//1000)).strftime('%c'))
+    print('bin file to:', datetime.datetime.fromtimestamp(int(time_list[-1]//1000)).strftime('%c'))
     print('bin file 1st element:', time_list[0])
     print('bin file 2nd element:', time_list[1])
     print('bin file 3rd element:', time_list[2])
