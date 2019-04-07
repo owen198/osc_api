@@ -200,6 +200,7 @@ def test_4():
     
     print('bin file from:', datetime.datetime.fromtimestamp(time_list[0]).strftime('%c'))
     print('bin file to:', datetime.datetime.fromtimestamp(time_list[-1]).strftime('%c'))
+    print(time_list[0])
     
     # from
     epoch_second = datetime.datetime.strptime(date_from, '%Y-%m-%dT%H:%M:%S.%fZ')
