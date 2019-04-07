@@ -261,7 +261,7 @@ def combine_s3_query_string(input_dt):
     epoch_second = input_dt.strftime('%s')
     milisecond = input_dt.microsecond / 1000
     query_string = str(int(epoch_second) * 1000 + milisecond)
-    return query_string
+    return str(query_string)
 
 def osc_fft(x):
 #     """
