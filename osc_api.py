@@ -205,10 +205,7 @@ def test_4():
     print('bin file 3rd element:', time_list[2])
     
     # from
-    epoch_second = date_from.strftime('%s')
-    milisecond = date_from.microsecond / 1000
-    query_string = str(int(epoch_second) * 1000 + milisecond)
-    print('query_string=', query_string)
+    query_string = combine_s3_query_string(date_from)
     
     query_from = []
     query_from = [time_list.index(i) for i in time_list if query_string in str(i)]
@@ -216,10 +213,7 @@ def test_4():
         query_from.append(0)
         
     # to
-    epoch_second = date_from.strftime('%s')
-    milisecond = date_from.microsecond / 1000
-    query_string = str(int(epoch_second) * 1000 + milisecond)
-    print('query_string=', query_string)
+    query_string = combine_s3_query_string(date_to)
     
     query_to = []
     query_to = [time_list.index(i) for i in time_list if query_string in str(i)]
@@ -255,6 +249,14 @@ def test_4():
 
     print('/query')
     return jsonify(resp), 200
+
+def combine_s3_query_string(date_from):
+    epoch_second = date_from.strftime('%s')
+    milisecond = date_from.microsecond / 1000
+    query_string = str(int(epoch_second) * 1000 + milisecond)
+    print('query_string=', query_string)
+    
+    return query_string
 
 def osc_fft(x):
 #     """
