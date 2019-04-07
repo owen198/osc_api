@@ -202,7 +202,7 @@ def test_4():
     print('bin file to:', datetime.datetime.fromtimestamp(int(time_list[-1]//1000)).strftime('%c'))
     print('bin file 1st element:', time_list[0])
     print('bin file 2nd element:', time_list[1])
-    print('bin file 3rd element:', time_list[2])
+    print('bin file 3rd element:', time_list[-1])
     
     # from
     query_string = combine_s3_query_string(date_from)
