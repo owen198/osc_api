@@ -10,6 +10,7 @@ import re
 import copy
 import scipy.fftpack
 import configparser
+import difflib
 
 #import sys
 #import platform
