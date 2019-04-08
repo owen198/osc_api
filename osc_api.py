@@ -225,6 +225,9 @@ def test_4():
     query_to = difflib.get_close_matches(query_bin_to, time_str_list)
     if not query_to:
         query_to.append(-1)
+        
+    print('index from:', time_str_list.index(query_from[0]))
+    print('index to:', time_str_list.index(query_to[-1]))
 
     print('query_from and query_to:', query_from[0], query_to[-1])
     raw_list = raw_list[query_from[0]:query_to[-1]]
