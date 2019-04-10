@@ -154,7 +154,7 @@ def test_4():
 
 
     # get bin file from s3 API
-    url = 'http://s3-api-fft.fomos.csc.com.tw/query'
+    url = 'http://s3-api-ceps.fomos.csc.com.tw/query'
 
     json_body = {
         "timezone": "browser",
@@ -231,8 +231,8 @@ def test_4():
 
     print('query_from and query_to:', query_from[0], query_to[-1])
     raw_list = raw_list[time_str_list.index(query_from[0]):time_str_list.index(query_to[-1])]
-    resp = osc_fft(raw_list)
-
+    #resp = osc_fft(raw_list)
+    resp = osc_ceps(raw_list)
     
     # route to different osc api
 #     if req_param['_type'][0] == 'fft':
