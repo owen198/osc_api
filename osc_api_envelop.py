@@ -154,7 +154,7 @@ def test_4():
 
 
     # get bin file from s3 API
-    url = 'http://s3-api-fft.fomos.csc.com.tw/query'
+    url = 'http://s3-api-envelop.fomos.csc.com.tw/query'
 
     json_body = {
         "timezone": "browser",
@@ -231,8 +231,10 @@ def test_4():
 
     print('query_from and query_to:', query_from[0], query_to[-1])
     raw_list = raw_list[time_str_list.index(query_from[0]):time_str_list.index(query_to[-1])]
-    resp = osc_fft(raw_list)
+    #resp = osc_fft(aw_list)
+    resp = osc_envelope(raw_list)
 
+#         resp = osc_envelope(query)
     
     # route to different osc api
 #     if req_param['_type'][0] == 'fft':
@@ -323,7 +325,7 @@ def osc_fft(x):
 
     return resp
     
-def osc_ceps(query):
+def osc_ceps(x):
 #     """
 #     wave transform: ceps
 
@@ -434,14 +436,14 @@ def osc_wavelet(query, wavelet_ID):
         
     return resp
     
-def osc_envelope(query):
-    """
-    wave transform: envelope (temp)
+def osc_envelope(result):
+    #"""
+    #wave transform: envelope (temp)
 
-    @param  query: (string) query string for influxdb.
-    @return resp: (list) fft trans result in grafana timeseries format.
-    """
-    # grafana simple json response format
+    #@param  query: (string) query string for influxdb.
+    #@return resp: (list) fft trans result in grafana timeseries format.
+    #"""
+    ## grafana simple json response format
     target_name = 'Amplitude'
     resp = []
     resp_item = {
@@ -450,8 +452,8 @@ def osc_envelope(query):
     }
 
 
-    result = client.query(query)    # query influxdb
-    result = result.raw # trans query result to json
+    #result = client.query(query)    # query influxdb
+    #result = result.raw # trans query result to json
 
 
     x = []
