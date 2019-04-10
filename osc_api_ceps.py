@@ -323,7 +323,7 @@ def osc_fft(x):
 
     return resp
     
-def osc_ceps(query):
+def osc_ceps(x):
 #     """
 #     wave transform: ceps
 
