@@ -231,6 +231,8 @@ def combine_s3_query_string(input_dt):
 
     
 def osc_ceps(x):
+    
+    print('signal processing start')
 
     target_name = 'Amplitude'
     resp = []
@@ -260,6 +262,7 @@ def osc_ceps(x):
     else:
         resp_item['datapoints'] = []
         
+    print('signal processing end')
     return resp
     
 def osc_wavelet(query, wavelet_ID):
