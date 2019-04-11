@@ -1,1 +1,1 @@
-web: python osc_api_envelop.py
+web: python osc_api_wavelet.py

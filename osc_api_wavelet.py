@@ -143,6 +143,7 @@ def test_4():
     #EQU_ID = target_obj.split('@')[0]
     #FEATURE = target_obj.split('@')[1]
     #TYPE = target_obj.split('@')[2]
+    wavelet_ID = target_obj.split('@')[3]
     
     #print('Datatime='+datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
     #print('EQU_ID=' + EQU_ID)
@@ -152,9 +153,20 @@ def test_4():
     print('date_to=', date_to)
     #print('Query Date=' + DATE)
 
-
+    # ignore processing if first query
+    if '16:00:00' in jsonobj['range']['from'] and '15:59:59' in jsonobj['range']['to']: 
+        print('same query')
+        target_name = 'Amplitude'
+        resp_item = {
+            'target': target_name,
+            'datapoints': []    # data
+        }
+        
+        return jsonify(resp_item), 200
+    
+    
     # get bin file from s3 API
-    url = 'http://s3-api-fft.fomos.csc.com.tw/query'
+    url = 'http://s3-api-wavelet.fomos.csc.com.tw/query'
 
     json_body = {
         "timezone": "browser",
@@ -231,9 +243,10 @@ def test_4():
 
     print('query_from and query_to:', query_from[0], query_to[-1])
     raw_list = raw_list[time_str_list.index(query_from[0]):time_str_list.index(query_to[-1])]
-    resp = osc_fft(raw_list)
-
+    #resp = osc_fft(raw_list)
+    #resp = osc_ceps(raw_list)
     
+    resp = osc_wavelet(raw_list, wavelet_ID)
     # route to different osc api
 #     if req_param['_type'][0] == 'fft':
 #         print("Transfer to FFT!")
@@ -323,7 +336,7 @@ def osc_fft(x):
 
     return resp
     
-def osc_ceps(query):
+def osc_ceps(x):
 #     """
 #     wave transform: ceps
 
@@ -376,14 +389,14 @@ def osc_ceps(query):
         
     return resp
     
-def osc_wavelet(query, wavelet_ID):
-    """
-    wave transform: ceps
+def osc_wavelet(x, wavelet_ID):
+    #"""
+    #wave transform: ceps
 
-    @param  query: (string) query string for influxdb.
-    @return resp: (list) fft trans result in grafana timeseries format.
-    """
-    # grafana simple json response format
+    #@param  query: (string) query string for influxdb.
+    #@return resp: (list) fft trans result in grafana timeseries format.
+    #"""
+    ## grafana simple json response format
     target_name = 'Amplitude'
     resp = []
     resp_item = {
@@ -392,18 +405,18 @@ def osc_wavelet(query, wavelet_ID):
     }
 
 
-    result = client.query(query)    # query influxdb
-    result = result.raw # trans query result to json
+    #result = client.query(query)    # query influxdb
+    #result = result.raw # trans query result to json
 
 
-    x = []
-    if 'series' in result:
-        items = result['series'][0]['values']   # data array with data in influxdb
-        
-        for item in items:
-            x.append(item[1])
-    
-    client.close()
+    #x = []
+    #if 'series' in result:
+    #    items = result['series'][0]['values']   # data array with data in influxdb
+    #    
+    #    for item in items:
+    #        x.append(item[1])
+    # 
+    #client.close()
 
 
     if len(x) != 0:
