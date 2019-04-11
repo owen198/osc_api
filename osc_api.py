@@ -229,27 +229,6 @@ def test_4():
     raw_list = raw_list[index_from:index_to]
     resp = osc_fft(raw_list)
 
-    
-    # route to different osc api
-#     if req_param['_type'][0] == 'fft':
-#         print("Transfer to FFT!")
-#         resp = osc_fft(resp_list)
-#     elif req_param['_type'][0] == 'envelope':
-#         resp = osc_envelope(query)
-#     elif req_param['_type'][0] == 'ceps':
-#         print("Transfer to CEPS!")        
-#         resp = osc_ceps(query)
-#     elif req_param['_type'][0] == 'wavelet':
-#         print("Transfer to wavelet!")
-#         #global wavelet_ID
-#         wavelet_ID = int (req_param['wavelet_ID'][0])
-#         resp = osc_wavelet(query,wavelet_ID)
-#         print('wavelet_ID:')
-#         print(wavelet_ID)        
-#     else:
-#         resp = []
-
-
     print('/query')
     return jsonify(resp), 200
 
