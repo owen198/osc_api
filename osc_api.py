@@ -118,7 +118,6 @@ def test_3():
 @app.route("/query", methods=['GET','POST'])
 def test_4():
 
-
     # retrieve post JSON object
     jsonobj = request.get_json(silent=True)
     print(jsonobj)
@@ -198,30 +197,11 @@ def test_4():
     print('bin file from:', datetime.datetime.fromtimestamp(int(time_list[0]//1000)).strftime('%c'))
     print('bin file to:', datetime.datetime.fromtimestamp(int(time_list[-1]//1000)).strftime('%c'))
     print('bin file 1st element:', time_list[0])
-    print('bin file 2nd element:', time_list[1])
     print('bin file last element:', time_list[-1], type(time_list[-1]))
     
-#     # from
+    # Query bin file
     query_bin_from = combine_s3_query_string(date_from)
-#     print('query_bin_from=', query_bin_from, type(query_bin_from))
-    
-#     time_str_list = ['{:.3f}'.format(x) for x in time_list]
-#     query_from = difflib.get_close_matches(query_bin_from, time_str_list)
-#     if not query_from:
-#         query_from.append(0)
-
-        
-#     # to
     query_bin_to = combine_s3_query_string(date_to)
-#     print('query_bin_to=', query_bin_to)
-    
-#     query_to = difflib.get_close_matches(query_bin_to, time_str_list)
-#     if not query_to:
-#         query_to.append(-1)
-        
-#     print('index from:', time_str_list.index(query_from[0]))
-#     print('index to:', time_str_list.index(query_to[-1]))
-
     index_from = time_list.index(min(time_list, key=lambda timestamp: abs(timestamp - query_bin_from)))
     index_to = time_list.index(min(time_list, key=lambda timestamp: abs(timestamp - query_bin_to)))
 
@@ -239,35 +219,13 @@ def combine_s3_query_string(input_dt):
     return float(query_string)
 
 def osc_fft(x):
-#     """
-#     wave transform: fft
 
-#     @param  query: (string) query string for influxdb.
-#     @return resp: (list) fft trans result in grafana timeseries format.
-#     """
-#     # grafana simple json response format
     target_name = 'Amplitude'
     resp = []
     resp_item = {
         'target': target_name,
         'datapoints': []    # data
     }
-
-#     print('query:')
-#     print(query)
-#     result = client.query(query)    # query influxdb
-    
-#     result = result.raw # trans query result to json
-       
-
-#     x = []
-#     if 'series' in result:
-#         items = result['series'][0]['values']   # data array with data in influxdb
-                     
-#         for item in items:
-#             x.append(item[1])
-    
-#     client.close()
 
     
     if len(x) != 0:
