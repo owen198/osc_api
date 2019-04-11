@@ -153,9 +153,7 @@ def test_4():
     #print('Query Date=' + DATE)
     
     # ignore processing if first query
-    date_from_check = datetime.datetime.strptime(date_from, '%Y-%m-%dT%H:%M:%S.%fZ')
-    date_to_check = datetime.datetime.strptime(date_to, '%Y-%m-%dT%H:%M:%S.%fZ')
-    if date_from is date_from_check:
+    if '00:00:00' not in jsonobj['range']['from']: 
         print('same query')
 
 
