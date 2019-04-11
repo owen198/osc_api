@@ -118,39 +118,31 @@ def test_3():
 @app.route("/query", methods=['GET','POST'])
 def test_4():
 
-
     # retrieve post JSON object
     jsonobj = request.get_json(silent=True)
     print(jsonobj)
     
     target_obj = jsonobj['targets'][0]['target']
     date_obj = jsonobj['range']['from']
-    
     date_from = jsonobj['range']['from']
     date_to = jsonobj['range']['to']
-    #date_obj = date_obj.split('T')[0]
-    
-    #date_from = datetime.datetime.strptime(date_from, '%Y-%m-%dT%H:%M:%S.%fZ') + datetime.timedelta(hours=8)
-    #date_to = datetime.datetime.strptime(date_to, '%Y-%m-%dT%H:%M:%S.%fZ') + datetime.timedelta(hours=8)
     
     date_from = datetime.datetime.strptime(date_from, '%Y-%m-%dT%H:%M:%S.%fZ')
     date_to = datetime.datetime.strptime(date_to, '%Y-%m-%dT%H:%M:%S.%fZ')
     
-    #DATE = datetime.datetime.strptime(date_obj, '%Y-%m-%dT%H:%M:%S.%fZ')
-    #DATE = DATE + datetime.timedelta(hours=8)
-    #DATE = DATE.strftime('%Y-%m-%d')
-
-    #EQU_ID = target_obj.split('@')[0]
-    #FEATURE = target_obj.split('@')[1]
-    #TYPE = target_obj.split('@')[2]
-    
-    #print('Datatime='+datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-    #print('EQU_ID=' + EQU_ID)
-    #print('target_obj=' + target_obj)
     print('date_obj=' + date_obj)
     print('date_from=', date_from)
     print('date_to=', date_to)
-    #print('Query Date=' + DATE)
+    
+    # ignore processing if first query
+    if '16:00:00' in jsonobj['range']['from'] and '15:59:59' in jsonobj['range']['to']: 
+        print('same query')
+        target_name = 'Amplitude'
+        resp_item = {
+            'target': target_name,
+            'datapoints': []    # data
+        }
+        return jsonify(resp_item), 200
 
     # ignore processing if first query
     if '16:00:00' in jsonobj['range']['from'] and '15:59:59' in jsonobj['range']['to']: 
@@ -216,55 +208,17 @@ def test_4():
     print('bin file from:', datetime.datetime.fromtimestamp(int(time_list[0]//1000)).strftime('%c'))
     print('bin file to:', datetime.datetime.fromtimestamp(int(time_list[-1]//1000)).strftime('%c'))
     print('bin file 1st element:', time_list[0])
-    print('bin file 2nd element:', time_list[1])
     print('bin file last element:', time_list[-1], type(time_list[-1]))
     
-    # from
     query_bin_from = combine_s3_query_string(date_from)
-    print('query_bin_from=', query_bin_from, type(query_bin_from))
-    
-    time_str_list = ['{:.3f}'.format(x) for x in time_list]
-    query_from = difflib.get_close_matches(query_bin_from, time_str_list)
-    if not query_from:
-        query_from.append(0)
-
-        
-    # to
     query_bin_to = combine_s3_query_string(date_to)
-    print('query_bin_to=', query_bin_to)
-    
-    query_to = difflib.get_close_matches(query_bin_to, time_str_list)
-    if not query_to:
-        query_to.append(-1)
-        
-    print('index from:', time_str_list.index(query_from[0]))
-    print('index to:', time_str_list.index(query_to[-1]))
+    index_from = time_list.index(min(time_list, key=lambda timestamp: abs(timestamp - query_bin_from)))
+    index_to = time_list.index(min(time_list, key=lambda timestamp: abs(timestamp - query_bin_to)))
 
-    print('query_from and query_to:', query_from[0], query_to[-1])
-    raw_list = raw_list[time_str_list.index(query_from[0]):time_str_list.index(query_to[-1])]
-    #resp = osc_fft(raw_list)
+    print('query_from and query_to:', index_from, index_to)
+    raw_list = raw_list[index_from:index_to]
     resp = osc_ceps(raw_list)
     
-    # route to different osc api
-#     if req_param['_type'][0] == 'fft':
-#         print("Transfer to FFT!")
-#         resp = osc_fft(resp_list)
-#     elif req_param['_type'][0] == 'envelope':
-#         resp = osc_envelope(query)
-#     elif req_param['_type'][0] == 'ceps':
-#         print("Transfer to CEPS!")        
-#         resp = osc_ceps(query)
-#     elif req_param['_type'][0] == 'wavelet':
-#         print("Transfer to wavelet!")
-#         #global wavelet_ID
-#         wavelet_ID = int (req_param['wavelet_ID'][0])
-#         resp = osc_wavelet(query,wavelet_ID)
-#         print('wavelet_ID:')
-#         print(wavelet_ID)        
-#     else:
-#         resp = []
-
-
     print('/query')
     return jsonify(resp), 200
 
@@ -272,97 +226,18 @@ def combine_s3_query_string(input_dt):
     epoch_second = input_dt.strftime('%s')
     milisecond = input_dt.microsecond / 1000
     query_string = str(int(epoch_second) * 1000 + milisecond)
-    return str(query_string)
-
-def osc_fft(x):
-#     """
-#     wave transform: fft
-
-#     @param  query: (string) query string for influxdb.
-#     @return resp: (list) fft trans result in grafana timeseries format.
-#     """
-#     # grafana simple json response format
-    target_name = 'Amplitude'
-    resp = []
-    resp_item = {
-        'target': target_name,
-        'datapoints': []    # data
-    }
-
-#     print('query:')
-#     print(query)
-#     result = client.query(query)    # query influxdb
-    
-#     result = result.raw # trans query result to json
-       
-
-#     x = []
-#     if 'series' in result:
-#         items = result['series'][0]['values']   # data array with data in influxdb
-                     
-#         for item in items:
-#             x.append(item[1])
-    
-#     client.close()
-
-    
-    if len(x) != 0:
-        # Compute and plot the spectrogram.
-        Fs = 8192.0  # rate
-        Ts = 1.0/Fs # interval
-        ff = 5  # frequency of the signal
-
-        n = len(x) # length of the signal
-        k = np.arange(n)
-        T = n/Fs
-        frq = k/T # two sides frequency range
-        frq = frq[range(int(n/2))] # one side frequency ralsge
-        Y = np.fft.fft(x)/n*2 # fft computing and normalization
-        Y = Y[range(int(n/2))]
+    return float(query_string)
 
 
-        fft = []
-        for i in range(int(n/2)):
-            fft.append([float(abs(Y[i])), float(frq[i])])
-
-        resp_item['datapoints'] = fft
-        resp.append(resp_item)
-    
-    else:
-        resp_item['datapoints'] = []
-
-
-    return resp
     
 def osc_ceps(x):
-#     """
-#     wave transform: ceps
 
-#     @param  query: (string) query string for influxdb.
-#     @return resp: (list) fft trans result in grafana timeseries format.
-#     """
-#     # grafana simple json response format
     target_name = 'Amplitude'
     resp = []
     resp_item = {
         'target': target_name,
         'datapoints': []    # data
     }
-
-
-#     result = client.query(query)    # query influxdb
-#     result = result.raw # trans query result to json
-
-
-#     x = []
-#     if 'series' in result:
-#         items = result['series'][0]['values']   # data array with data in influxdb
-        
-#         for item in items:
-#             x.append(item[1])
-    
-#     client.close()
-
 
     if len(x) != 0:
         # Compute and plot the spectrogram.
