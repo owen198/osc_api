@@ -152,7 +152,18 @@ def test_4():
     print('date_to=', date_to)
     #print('Query Date=' + DATE)
 
-
+    # ignore processing if first query
+    if '16:00:00' in jsonobj['range']['from'] and '15:59:59' in jsonobj['range']['to']: 
+        print('same query')
+        target_name = 'Amplitude'
+        resp_item = {
+            'target': target_name,
+            'datapoints': []    # data
+        }
+        
+        return jsonify(resp_item), 200
+    
+    
     # get bin file from s3 API
     url = 'http://s3-api-ceps.fomos.csc.com.tw/query'
 
