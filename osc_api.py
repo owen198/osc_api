@@ -153,8 +153,16 @@ def test_4():
     #print('Query Date=' + DATE)
     
     # ignore processing if first query
-    if '16:00:00' not in jsonobj['range']['from'] and '15:59:59' not in jsonobj['range']['to']: 
+    if '16:00:00' in jsonobj['range']['from'] and '15:59:59' in jsonobj['range']['to']: 
         print('same query')
+        resp = []
+        resp_item = {
+            'target': target_name,
+            'datapoints': []    # data
+        }
+        
+        return jsonify(resp_item), 200
+        
 
 
     # get bin file from s3 API
