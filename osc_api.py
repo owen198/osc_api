@@ -125,32 +125,15 @@ def test_4():
     
     target_obj = jsonobj['targets'][0]['target']
     date_obj = jsonobj['range']['from']
-    
     date_from = jsonobj['range']['from']
     date_to = jsonobj['range']['to']
-    #date_obj = date_obj.split('T')[0]
-    
-    #date_from = datetime.datetime.strptime(date_from, '%Y-%m-%dT%H:%M:%S.%fZ') + datetime.timedelta(hours=8)
-    #date_to = datetime.datetime.strptime(date_to, '%Y-%m-%dT%H:%M:%S.%fZ') + datetime.timedelta(hours=8)
     
     date_from = datetime.datetime.strptime(date_from, '%Y-%m-%dT%H:%M:%S.%fZ')
     date_to = datetime.datetime.strptime(date_to, '%Y-%m-%dT%H:%M:%S.%fZ')
     
-    #DATE = datetime.datetime.strptime(date_obj, '%Y-%m-%dT%H:%M:%S.%fZ')
-    #DATE = DATE + datetime.timedelta(hours=8)
-    #DATE = DATE.strftime('%Y-%m-%d')
-
-    #EQU_ID = target_obj.split('@')[0]
-    #FEATURE = target_obj.split('@')[1]
-    #TYPE = target_obj.split('@')[2]
-    
-    #print('Datatime='+datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
-    #print('EQU_ID=' + EQU_ID)
-    #print('target_obj=' + target_obj)
     print('date_obj=' + date_obj)
     print('date_from=', date_from)
     print('date_to=', date_to)
-    #print('Query Date=' + DATE)
     
     # ignore processing if first query
     if '16:00:00' in jsonobj['range']['from'] and '15:59:59' in jsonobj['range']['to']: 
@@ -160,10 +143,8 @@ def test_4():
             'target': target_name,
             'datapoints': []    # data
         }
-        
         return jsonify(resp_item), 200
         
-
 
     # get bin file from s3 API
     url = 'http://s3-api-fft.fomos.csc.com.tw/query'
@@ -221,7 +202,7 @@ def test_4():
     print('bin file last element:', time_list[-1], type(time_list[-1]))
     
 #     # from
-     query_bin_from = combine_s3_query_string(date_from)
+    query_bin_from = combine_s3_query_string(date_from)
 #     print('query_bin_from=', query_bin_from, type(query_bin_from))
     
 #     time_str_list = ['{:.3f}'.format(x) for x in time_list]
@@ -231,7 +212,7 @@ def test_4():
 
         
 #     # to
-     query_bin_to = combine_s3_query_string(date_to)
+    query_bin_to = combine_s3_query_string(date_to)
 #     print('query_bin_to=', query_bin_to)
     
 #     query_to = difflib.get_close_matches(query_bin_to, time_str_list)
