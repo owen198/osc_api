@@ -155,7 +155,7 @@ def test_4():
     # ignore processing if first query
     if '16:00:00' in jsonobj['range']['from'] and '15:59:59' in jsonobj['range']['to']: 
         print('same query')
-        resp = []
+        target_name = 'Amplitude'
         resp_item = {
             'target': target_name,
             'datapoints': []    # data
