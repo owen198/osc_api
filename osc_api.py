@@ -151,6 +151,12 @@ def test_4():
     print('date_from=', date_from)
     print('date_to=', date_to)
     #print('Query Date=' + DATE)
+    
+    # ignore processing if first query
+    date_from_check = datetime.datetime.strptime(date_from, '%Y-%m-%dT%H:%M:%S.%fZ')
+    date_to_check = datetime.datetime.strptime(date_to, '%Y-%m-%dT%H:%M:%S.%fZ')
+    if date_from is date_from_check:
+        print('same query')
 
 
     # get bin file from s3 API
