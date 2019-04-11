@@ -216,6 +216,7 @@ def test_4():
     index_to = time_list.index(min(time_list, key=lambda timestamp: abs(timestamp - query_bin_to)))
 
     print('query_from and query_to:', index_from, index_to)
+    print('length:', len(time_list))
     raw_list = raw_list[index_from:index_to]
     resp = osc_ceps(raw_list)
     
