@@ -153,7 +153,7 @@ def test_4():
     #print('Query Date=' + DATE)
     
     # ignore processing if first query
-    if '00:00:00' not in jsonobj['range']['from']: 
+    if '16:00:00' not in jsonobj['range']['from'] and '15:59:59' not in jsonobj['range']['to']: 
         print('same query')
 
 
