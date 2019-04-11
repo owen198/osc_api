@@ -127,6 +127,7 @@ def test_4():
     date_obj = jsonobj['range']['from']
     date_from = jsonobj['range']['from']
     date_to = jsonobj['range']['to']
+    wavelet_ID = target_obj.split('@')[3]
     
     date_from = datetime.datetime.strptime(date_from, '%Y-%m-%dT%H:%M:%S.%fZ')
     date_to = datetime.datetime.strptime(date_to, '%Y-%m-%dT%H:%M:%S.%fZ')
