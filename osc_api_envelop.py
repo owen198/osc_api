@@ -436,7 +436,7 @@ def osc_wavelet(query, wavelet_ID):
         
     return resp
     
-def osc_envelope(result):
+def osc_envelope(x):
     #"""
     #wave transform: envelope (temp)
 
@@ -456,14 +456,14 @@ def osc_envelope(result):
     #result = result.raw # trans query result to json
 
 
-    x = []
-    if 'series' in result:
-        items = result['series'][0]['values']   # data array with data in influxdb
+    #x = []
+    #if 'series' in result:
+    #    items = result['series'][0]['values']   # data array with data in influxdb
         
-        for item in items:
-            x.append(item[1])
+    #    for item in items:
+    #        x.append(item[1])
     
-    client.close()
+    #client.close()
 
 
     if len(x) != 0:

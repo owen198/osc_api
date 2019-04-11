@@ -143,7 +143,7 @@ def test_4():
     #EQU_ID = target_obj.split('@')[0]
     #FEATURE = target_obj.split('@')[1]
     #TYPE = target_obj.split('@')[2]
-    wavelet_ID = target_obj.split('@')[3]
+    wavelet_ID = int(target_obj.split('@')[3])
     
     #print('Datatime='+datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
     #print('EQU_ID=' + EQU_ID)
