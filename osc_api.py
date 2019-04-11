@@ -220,6 +220,8 @@ def combine_s3_query_string(input_dt):
 
 def osc_fft(x):
 
+    print('signal processing start')
+    
     target_name = 'Amplitude'
     resp = []
     resp_item = {
@@ -254,174 +256,10 @@ def osc_fft(x):
         resp_item['datapoints'] = []
 
 
+    print('signal processing end')
     return resp
     
-def osc_ceps(x):
-#     """
-#     wave transform: ceps
 
-#     @param  query: (string) query string for influxdb.
-#     @return resp: (list) fft trans result in grafana timeseries format.
-#     """
-#     # grafana simple json response format
-    target_name = 'Amplitude'
-    resp = []
-    resp_item = {
-        'target': target_name,
-        'datapoints': []    # data
-    }
-
-
-#     result = client.query(query)    # query influxdb
-#     result = result.raw # trans query result to json
-
-
-#     x = []
-#     if 'series' in result:
-#         items = result['series'][0]['values']   # data array with data in influxdb
-        
-#         for item in items:
-#             x.append(item[1])
-    
-#     client.close()
-
-
-    if len(x) != 0:
-        # Compute and plot the spectrogram.
-        Fs = 8192.0  # rate
-        Ts = 1.0/Fs # interval
-        ff = 5  # frequency of the signal
-
-        n = len(x) # length of the signal
-        k = np.arange(n)
-        T = n/Fs
-        X, Y = cepstrum(x,Fs)
-
-        ceps = []
-        for i in range(0,X.shape[0]):
-            ceps.append([abs(float(Y[i])), float(X[i])])
-
-        resp_item['datapoints'] = ceps
-        resp.append(resp_item)
-
-    else:
-        resp_item['datapoints'] = []
-        
-    return resp
-    
-def osc_wavelet(query, wavelet_ID):
-    """
-    wave transform: ceps
-
-    @param  query: (string) query string for influxdb.
-    @return resp: (list) fft trans result in grafana timeseries format.
-    """
-    # grafana simple json response format
-    target_name = 'Amplitude'
-    resp = []
-    resp_item = {
-        'target': target_name,
-        'datapoints': []    # data
-    }
-
-
-    result = client.query(query)    # query influxdb
-    result = result.raw # trans query result to json
-
-
-    x = []
-    if 'series' in result:
-        items = result['series'][0]['values']   # data array with data in influxdb
-        
-        for item in items:
-            x.append(item[1])
-    
-    client.close()
-
-
-    if len(x) != 0:
-        # Compute and plot the spectrogram.
-        Fs = 8192.0  # rate
-        Ts = 1.0/Fs # interval
-        ff = 5  # frequency of the signal
-
-        n = len(x) # length of the signal
-        k = np.arange(n)
-        T = n/Fs
-        X, Ys = wavelet_comp_inv(x,Fs,Level=4,wavName='db5')
-        print(len(Ys))
-        #wavelet_ID = req_param['wavelet_ID'][0]
-        print('wavelet_ID:')
-        print(wavelet_ID)
-        #wavelet_ID=int(3)
-        Y = Ys[wavelet_ID]
-        wavelet = []
-        for i in range(0,X.shape[0]):
-            wavelet.append([float(Y[i]), float(X[i])])
-
-        resp_item['datapoints'] = wavelet
-        resp.append(resp_item)
-
-    else:
-        resp_item['datapoints'] = []
-        
-    return resp
-    
-def osc_envelope(query):
-    """
-    wave transform: envelope (temp)
-
-    @param  query: (string) query string for influxdb.
-    @return resp: (list) fft trans result in grafana timeseries format.
-    """
-    # grafana simple json response format
-    target_name = 'Amplitude'
-    resp = []
-    resp_item = {
-        'target': target_name,
-        'datapoints': []    # data
-    }
-
-
-    result = client.query(query)    # query influxdb
-    result = result.raw # trans query result to json
-
-
-    x = []
-    if 'series' in result:
-        items = result['series'][0]['values']   # data array with data in influxdb
-        
-        for item in items:
-            x.append(item[1])
-    
-    client.close()
-
-
-    if len(x) != 0:
-        # Compute and plot the spectrogram.
-        Fs = 8192.0  # rate
-        Ts = 1.0/Fs # interval
-        ff = 5  # frequency of the signal
-
-        n = len(x) # length of the signal
-        k = np.arange(n)
-        T = n/Fs
-        X, Y = envelope_spectrum(x,Fs)
-
-
-        envelope = []
-        #for i in range(0,X.shape[0]):
-        for i in range(0,int(100.0/X[1])):
-            envelope.append([float(Y[i]), float(X[i])])
-
-        resp_item['datapoints'] = envelope
-        resp.append(resp_item)
-    
-    else:
-        resp_item['datapoints'] = []
-
-
-    return resp
 
 def cepstrum(signal,sample_rate=8192,cut_time=0.01,suppression=0.1):
     """
