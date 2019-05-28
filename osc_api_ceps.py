@@ -363,7 +363,7 @@ def osc_envelope(query):
         n = len(x) # length of the signal
         k = np.arange(n)
         T = n/Fs
-	x = x[0:2**16] if n > 60000 else x 
+        x = x[0:2**16] if n > 60000 else x 
         X, Y = envelope_spectrum(x,Fs)
 
 
