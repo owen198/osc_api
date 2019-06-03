@@ -251,6 +251,7 @@ def osc_ceps(x):
         n = len(x) # length of the signal
         k = np.arange(n)
         T = n/Fs
+        x = x[0:2**16] if n > 60000 else x 
         X, Y = cepstrum(x,Fs)
 
         ceps = []
