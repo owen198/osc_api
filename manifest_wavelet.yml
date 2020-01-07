@@ -1,5 +1,0 @@
----
-applications:
-- name: osc-api-wavelet
-  memory: 1024MB
-  buildpack: python_buildpack_offline

@@ -1,13 +1,32 @@
 ---
 applications:
-- name: osc-api-tdms
+- name: osc-api-fft-tdms
   memory: 1024MB
   buildpack: python_buildpack_offline
-  web: python osc_api.py
+  command: python osc_api.py
+  env:
+    S3_URL: http://tdms-api-fft.fomos.csc.com.tw/query
 
----
-applications:
 - name: osc-api-wavelet-tdms
   memory: 1024MB
   buildpack: python_buildpack_offline
-  web: python osc_api_wavelet.py
+  command: python osc_api_wavelet.py
+  env:
+    S3_URL: http://tdms-api-wavelet.fomos.csc.com.tw/query
+
+
+- name: osc-api-envelop-tdms
+  memory: 1024MB
+  buildpack: python_buildpack_offline
+  command: python osc_api_envelop.py
+  env:
+    S3_URL: http://tdms-api-envelop.fomos.csc.com.tw/query
+
+
+- name: osc-api-ceps-tdms
+  memory: 1024MB
+  buildpack: python_buildpack_offline
+  command: python osc_api_ceps.py
+  env:
+    S3_URL: http://tdms-api-ceps.fomos.csc.com.tw/query
+

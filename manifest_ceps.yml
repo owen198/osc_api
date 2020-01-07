@@ -1,5 +1,0 @@
----
-applications:
-- name: osc-api-ceps
-  memory: 1024MB
-  buildpack: python_buildpack_offline

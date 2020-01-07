@@ -146,7 +146,8 @@ def test_4():
         
 
     # get bin file from s3 API
-    url = 'http://s3-api-fft.fomos.csc.com.tw/query'
+    # url = 'http://s3-api-fft.fomos.csc.com.tw/query'
+    url = os.getenv("S3_URL")
 
     json_body = {
         "timezone": "browser",
