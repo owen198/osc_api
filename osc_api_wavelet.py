@@ -7,6 +7,7 @@ import json
 import traceback
 import requests
 import re
+import os
 import copy
 import scipy.fftpack
 import configparser
@@ -149,7 +150,8 @@ def test_4():
     
     
     # get bin file from s3 API
-    url = 'http://s3-api-wavelet.fomos.csc.com.tw/query'
+    # url = 'http://s3-api-wavelet.fomos.csc.com.tw/query'
+    url = os.getenv("S3_URL")
 
     json_body = {
         "timezone": "browser",

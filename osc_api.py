@@ -7,6 +7,7 @@ import json
 import traceback
 import requests
 import re
+import os
 import copy
 import scipy.fftpack
 import configparser
@@ -471,6 +472,8 @@ def wavelet_comp_inv(signal,sample_rate=8192,Level=3,wavName='db12'):
 
 
 if __name__ == "__main__":
+
+    print(os.getenv("S3_URL"))
     app.run(host='0.0.0.0', port=8080, debug=True)
     # app.run(host='0.0.0.0', port=5500, debug=True)
     
