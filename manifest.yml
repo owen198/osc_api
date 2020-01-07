@@ -1,5 +1,13 @@
 ---
 applications:
-- name: osc-api
+- name: osc-api-tdms
   memory: 1024MB
   buildpack: python_buildpack_offline
+  web: python osc_api.py
+
+---
+applications:
+- name: osc-api-wavelet-tdms
+  memory: 1024MB
+  buildpack: python_buildpack_offline
+  web: python osc_api_wavelet.py
