@@ -195,6 +195,7 @@ def test_4():
     # query bin file by time range
     raw_list = [row[0] for row in s3_api_list]
     time_list = [row[1] for row in s3_api_list]
+    print('time_list', time_list)
     
     print('bin file from:', datetime.datetime.fromtimestamp(int(time_list[0]//1000)).strftime('%c'))
     print('bin file to:', datetime.datetime.fromtimestamp(int(time_list[-1]//1000)).strftime('%c'))
