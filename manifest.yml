@@ -1,32 +1,32 @@
 ---
 applications:
-- name: y4-osc-api-fft-tdms
+- name: y4-bin-osc-api-fft
   memory: 1024MB
   buildpack: python_buildpack_offline
   command: python osc_api.py
   env:
-    S3_URL: http://tdms-api-fft.fomos.csc.com.tw/query
+    S3_URL: http://y4-bin-s3-api-fft.fomos.csc.com.tw/query
 
-- name: y4-osc-api-wavelet-tdms
+- name: y4-bin-osc-api-wavelet
   memory: 1024MB
   buildpack: python_buildpack_offline
   command: python osc_api_wavelet.py
   env:
-    S3_URL: http://tdms-api-wavelet.fomos.csc.com.tw/query
+    S3_URL: http://y4-bin-s3-api-wavelet.fomos.csc.com.tw/query
 
 
-- name: y4-osc-api-envelop-tdms
+- name: y4-bin-osc-api-envelop
   memory: 1024MB
   buildpack: python_buildpack_offline
   command: python osc_api_envelop.py
   env:
-    S3_URL: http://tdms-api-envelop.fomos.csc.com.tw/query
+    S3_URL: http://y4-bin-s3-api-envelop.fomos.csc.com.tw/query
 
 
-- name: y4-osc-api-ceps-tdms
+- name: y4-bin-osc-api-ceps
   memory: 1024MB
   buildpack: python_buildpack_offline
   command: python osc_api_ceps.py
   env:
-    S3_URL: http://tdms-api-ceps.fomos.csc.com.tw/query
+    S3_URL: http://y4-bin-s3-api-ceps.fomos.csc.com.tw/query
 
