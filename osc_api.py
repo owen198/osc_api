@@ -208,7 +208,7 @@ def test_4():
 
     index_from = time_list.index(min(time_list, key=lambda timestamp: abs(timestamp - query_bin_from)))
     index_to = time_list.index(min(time_list, key=lambda timestamp: abs(timestamp - query_bin_to)))
-    print('query_from and query_to:', query_from, query_to)
+    print('index_from and query_to:', index_from, index_to)
 
     raw_list = raw_list[index_from:index_to]
     resp = osc_fft(raw_list)
