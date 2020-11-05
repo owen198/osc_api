@@ -191,6 +191,8 @@ def test_4():
     headers = {'Content-Type': 'application/json'}
     s3_api_resp = requests.post(url, headers=headers, data=json.dumps(json_body))
     s3_api_list = s3_api_resp.json()[0]['datapoints']
+
+    print('length of data',len(s3_api_list))
     
     # query bin file by time range
     raw_list = [row[0] for row in s3_api_list]
