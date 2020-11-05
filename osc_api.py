@@ -191,8 +191,6 @@ def test_4():
     headers = {'Content-Type': 'application/json'}
     s3_api_resp = requests.post(url, headers=headers, data=json.dumps(json_body))
     s3_api_list = s3_api_resp.json()[0]['datapoints']
-
-    print('length of data',len(s3_api_list))
     
     # query bin file by time range
     raw_list = [row[0] for row in s3_api_list]
@@ -212,6 +210,9 @@ def test_4():
     print('query_from and query_to:', index_from, index_to)
     raw_list = raw_list[index_from:index_to]
     resp = osc_fft(raw_list)
+
+    print('raw_list', raw_list)
+    print('resp', resp)
 
     print('/query')
     return jsonify(resp), 200
