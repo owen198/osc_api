@@ -213,8 +213,8 @@ def test_4():
     #raw_list = raw_list[index_from:index_to]
     resp = osc_fft(raw_list)
 
-    print('raw_list', raw_list)
-    print('resp', resp)
+    #print('raw_list', raw_list)
+    #print('resp', resp)
 
     print('/query')
     return jsonify(resp), 200
