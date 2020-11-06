@@ -195,7 +195,6 @@ def test_4():
     # query bin file by time range
     raw_list = [row[0] for row in s3_api_list]
     time_list = [row[1] for row in s3_api_list]
-    print('time_list', time_list)
     
     print('bin file from:', datetime.datetime.fromtimestamp(int(time_list[0]//1000)).strftime('%c'))
     print('bin file to:', datetime.datetime.fromtimestamp(int(time_list[-1]//1000)).strftime('%c'))
@@ -211,7 +210,7 @@ def test_4():
     index_to = time_list.index(min(time_list, key=lambda timestamp: abs(timestamp - query_bin_to)))
     print('index_from and query_to:', index_from, index_to)
 
-    raw_list = raw_list[index_from:index_to]
+    #raw_list = raw_list[index_from:index_to]
     resp = osc_fft(raw_list)
 
     print('raw_list', raw_list)
