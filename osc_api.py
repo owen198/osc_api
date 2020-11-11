@@ -19,6 +19,7 @@ import psycopg2
 
 import numpy as np
 #import pandas as pd
+import pandas.io.sql as sqlio
 
 from scipy import signal
 
@@ -154,6 +155,7 @@ def test_4():
         sampling_rate = 25600
     else:
         sampling_rate = 6000
+    print('sampling rate = ', sampling_rate)
 
 
     # get bin file from s3 API
