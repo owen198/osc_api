@@ -12,6 +12,7 @@ import copy
 import scipy.fftpack
 import configparser
 import difflib
+import psycopg2
 
 #import sys
 #import platform
@@ -124,6 +125,8 @@ def test_4():
     print(jsonobj)
     
     target_obj = jsonobj['targets'][0]['target']
+    device_id = target_obj.split('@')[0]
+    
     date_obj = jsonobj['range']['from']
     date_from = jsonobj['range']['from']
     date_to = jsonobj['range']['to']
@@ -144,7 +147,14 @@ def test_4():
             'datapoints': []    # data
         }
         return jsonify(resp_item), 200
-        
+    
+    # define sampling rate
+    device_name = query_device_name (device_id)
+    if '_vpod' in device_name:
+        sampling_rate = 25600
+    else:
+        sampling_rate = 6000
+
 
     # get bin file from s3 API
     # url = 'http://s3-api-fft.fomos.csc.com.tw/query'
@@ -209,10 +219,30 @@ def test_4():
 
     print('query_from and query_to:', index_from, index_to)
     raw_list = raw_list[index_from:index_to]
-    resp = osc_fft(raw_list)
+    resp = osc_fft(raw_list, sampling_rate)
 
     print('/query')
     return jsonify(resp), 200
+
+def query_device_name (EQU_ID):
+    PG_IP = "192.168.123.238"
+    PG_USER = "6e6b8fc2-ea3d-412e-9806-692a4aea5c0e"
+    PG_PASS = "huu1enrd9rrsptr86kvapqk4pe"
+    PG_DB = "214c2b8f-c62b-4133-82a8-93eb2dc59277"
+
+    conn = psycopg2.connect(
+                            host = PG_IP,
+                            database = PG_DB,
+                            user = PG_USER,
+                            password = PG_PASS)
+
+    sql = r'SELECT * FROM "CSC_FOMOS"."Y4_Channel_List";'
+    tag_list_pd = sqlio.read_sql_query(sql, conn)
+    conn.close()
+
+    device_name = tag_list_pd[tag_list_pd['channelID'] == EQU_ID]['channel_name'].values[0]
+
+    return device_name
 
 def combine_s3_query_string(input_dt):
     epoch_second = input_dt.strftime('%s')
@@ -220,7 +250,7 @@ def combine_s3_query_string(input_dt):
     query_string = str(int(epoch_second) * 1000 + milisecond)
     return float(query_string)
 
-def osc_fft(x):
+def osc_fft(x, sampling_rate):
 
     print('signal processing start')
     
@@ -234,7 +264,7 @@ def osc_fft(x):
     
     if len(x) != 0:
         # Compute and plot the spectrogram.
-        Fs = 8192.0  # rate
+        Fs = sampling_rate  # rate
         Ts = 1.0/Fs # interval
         ff = 5  # frequency of the signal
 
