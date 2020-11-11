@@ -1,10 +1,11 @@
-flask
+Flask
 requests
-scipy
-influxdb
+scipy 
+influxdb 
 numpy
 gunicorn
-configparser
+configparser 
 PyWavelets
 psycopg2
-pandas==0.22.0
+npTDMS
+pandas
