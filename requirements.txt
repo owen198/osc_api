@@ -1,9 +1,9 @@
-flask==1.0.2
-requests==2.21.0
+flask
+requests
 scipy
-influxdb==5.2.0
-numpy==1.14.2
-gunicorn==19.7.1
-configparser==3.5.0
-PyWavelets==0.5.2
-psycopg2==2.7.7
+influxdb
+numpy
+gunicorn
+configparser
+PyWavelets
+psycopg2
