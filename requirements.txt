@@ -8,4 +8,3 @@ configparser
 PyWavelets
 psycopg2
 npTDMS
-pandas
