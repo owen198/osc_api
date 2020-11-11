@@ -6,3 +6,4 @@ numpy
 gunicorn
 configparser 
 PyWavelets
+psycopg2==2.7.7
