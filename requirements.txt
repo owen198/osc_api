@@ -8,4 +8,4 @@ configparser
 PyWavelets
 psycopg2
 npTDMS
-pandas==0.22
+pandas
